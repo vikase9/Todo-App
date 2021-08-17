@@ -1,14 +1,17 @@
 <template>
   <div class="task">
-    <h2>Today</h2>
-    <div class="todo-wrapper">
+    <div class="show-task">
+      <i class="fas fa-plus plus-icon"></i><span>Show Task</span>
+    </div>
+    <h2 class="">Today</h2>
 
+    <div class="todo-wrapper">
       <div class="task-wrapper">
         <div v-for="items in apiData" :key="items.id" class="tasks">
           <div class="form-element">
-            <input class="check" type="radio" />
-            <label class="check-label radio" for="option-1"> </label>
-            {{ items.fields.task }}
+            <span v-html="items.fields.task">
+              {{ items.fields.task }}
+            </span>
           </div>
         </div>
 
@@ -41,15 +44,20 @@ export default {
         placeholder: "Your Task",
       },
       richTextEditor: "",
+      interval: null,
     };
   },
 
-  async mounted() {
+  async created() {
     this.apiData = await this.fetchTasks();
   },
 
   methods: {
     async submitTask() {
+      if (!this.options.content) {
+        alert("Fill the form");
+        return;
+      }
       await axios.post(
         "https://api.airtable.com/v0/apphZGgDhpEPZGSgI/today?api_key=keyb5bZMwjL3cHJ3q",
         {
@@ -58,9 +66,8 @@ export default {
           },
         }
       );
-      this.$nextTick(() => {
-        this.$refs.richTextEditor.clearContent();
-      });
+      this.apiData.push(this.options.content);
+      console.log(this.apiData);
     },
 
     async fetchTasks() {
@@ -75,15 +82,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.show-task {
+  padding-top: 4rem;
+  padding-left: 10%;
+}
+.plus-icon {
+  font-size: 16px;
+  color: rgb(245, 70, 70);
+  padding: 2px;
+}
+.show-task:hover {
+  cursor: pointer;
+}
+
+.show-task > span {
+  margin-left: 8px;
+  color: rgb(142, 143, 144);
+}
+.show-task:hover .plus-icon {
+  background-color: rgb(245, 70, 70);
+  color: white;
+  border-radius: 50%;
+}
+.show-task span:hover {
+  color: rgb(245, 70, 70);
+}
 .task {
-  padding: 1rem 1rem;
+  padding-left: 35%;
 }
 .tasks {
-  margin-top: 10px;
+  margin-top: 16px;
   cursor: pointer;
   font-size: 18px;
 }
 .rich-text {
-  margin-top: 10px;
+  margin-top: 12px;
 }
 </style>
