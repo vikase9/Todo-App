@@ -2,9 +2,6 @@
   <div class="task">
     <h2>Today</h2>
     <div class="todo-wrapper">
-      <div class="show-task">
-        <i class="fas fa-plus plus-icon"></i><span>Show Task</span>
-      </div>
 
       <div class="task-wrapper">
         <div v-for="items in apiData" :key="items.id" class="tasks">
@@ -18,7 +15,7 @@
         <RichText
           class="rich-text"
           :options="options"
-          :send="send"
+          :send="submitTask"
           ref="richTextEditor"
         />
       </div>
@@ -38,7 +35,7 @@ export default {
   data() {
     return {
       seen: false,
-      apiData: null,
+      apiData: [],
       options: {
         content: "",
         placeholder: "Your Task",
@@ -47,28 +44,13 @@ export default {
     };
   },
 
-  created() {
-    axios
-      .get(
-        "https://api.airtable.com/v0/apphZGgDhpEPZGSgI/today?api_key=keyb5bZMwjL3cHJ3q"
-      )
-      .then((response) => {
-        this.apiData = response.data.records;
-        console.log(this.apiData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async mounted() {
+    this.apiData = await this.fetchTasks();
   },
 
   methods: {
-    send() {
-      if (!this.options.content) {
-        alert("Please Add Task");
-        return;
-      }
-      // submitPost
-      axios.post(
+    async submitTask() {
+      await axios.post(
         "https://api.airtable.com/v0/apphZGgDhpEPZGSgI/today?api_key=keyb5bZMwjL3cHJ3q",
         {
           fields: {
@@ -80,37 +62,21 @@ export default {
         this.$refs.richTextEditor.clearContent();
       });
     },
+
+    async fetchTasks() {
+      const res = await axios.get(
+        "https://api.airtable.com/v0/apphZGgDhpEPZGSgI/today?api_key=keyb5bZMwjL3cHJ3q"
+      );
+      const data = await res.data.records;
+      return data;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .task {
-  padding: 7rem 2rem;
-}
-.plus-icon {
-  font-size: 16px;
-  color: rgb(245, 70, 70);
-  padding: 2px;
-}
-.show-task {
-  margin: 14px 0;
-}
-.show-task:hover {
-  cursor: pointer;
-}
-
-.show-task span {
-  margin-left: 8px;
-  color: rgb(142, 143, 144);
-}
-.show-task:hover .plus-icon {
-  background-color: rgb(245, 70, 70);
-  color: white;
-  border-radius: 50%;
-}
-.show-task span:hover {
-  color: rgb(245, 70, 70);
+  padding: 1rem 1rem;
 }
 .tasks {
   margin-top: 10px;
