@@ -71,7 +71,7 @@ export default {
 <style lang="scss" scoped>
 .show-task {
     padding-top: 4rem;
-    padding-left: 10%;
+    padding-bottom: 1rem;
 }
 .plus-icon {
     font-size: 16px;
@@ -95,7 +95,7 @@ export default {
     color: rgb(245, 70, 70);
 }
 .task {
-    padding-left: 35%;
+    padding: 0 20%;
 }
 .tasks {
     margin-top: 16px;
