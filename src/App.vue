@@ -2,6 +2,7 @@
     <div class="app">
         <Tailwind />
         <Task />
+        <Home />
         <router-view></router-view>
     </div>
 </template>
