@@ -51,5 +51,14 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "prettier": {
+    "semi": true,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "printWidth": 200,
+    "bracketSpacing": false,
+    "arrowParens": "avoid",
+    "jsxBracketSameLine": true
+  }
 }
