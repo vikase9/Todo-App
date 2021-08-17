@@ -1,21 +1,19 @@
 <template>
     <div class="app">
         <Tailwind />
-        <Task />
-        <Home />
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-import Task from './components/TaskComponent.vue';
+import TodayTask from './components/TodayTask.vue';
 import Tailwind from './components/tailwind.vue';
 
 export default {
     name: 'app',
     components: {
         Tailwind,
-        Task,
+        TodayTask,
     },
 };
 </script>

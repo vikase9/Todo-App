@@ -2,7 +2,7 @@
     <div class="task  bg-gray-100 h-full">
         <div class="show-task"><i class="fas fa-plus plus-icon"></i><span>Show Task</span></div>
         <h2 class="">Today</h2>
-
+ 
         <div class="todo-wrapper">
             <div class="task-wrapper">
                 <div v-for="(item, index) in apiData" :key="index" class="tasks bg-white shadow-sm py-4 px-4">
@@ -21,7 +21,7 @@ import {Button, RichText} from '@e9ine/vue_components';
 import axios from 'axios';
 
 export default {
-    name: 'Task',
+    name: 'TodayTask',
     components: {
         Button,
         RichText,

@@ -12,8 +12,12 @@
                 <!-- Sidebar Content -->
                 <div ref="content" class="transition-all duration-700 bg-gray-700 overflow-hidden flex items-center justify-center" :class="[open ? 'max-w-lg' : 'max-w-0']">
                     <div class="w-48 text-center font-bold text-xl">
-                        <h4 class="pb-4 text-white">Today</h4>
-                        <h4 class="text-white">Tommorow</h4>
+                        <h4 class="pb-2 text-white border-b">
+                            <router-link to="/">Today</router-link>
+                        </h4>
+                        <h4 class="text-white pt-2">
+                            <router-link to="/upcoming">Upcoming</router-link>
+                        </h4>
                     </div>
                     <slot></slot>
                 </div>
