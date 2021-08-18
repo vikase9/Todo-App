@@ -2,7 +2,7 @@
     <div class="task bg-gray-100 h-full">
         <div class="show-task"><i class="fas fa-plus plus-icon"></i><span>Show Task</span></div>
         <h2>
-            <span class="text-lg font-bold">Today,</span> <span class="text-sm">{{ new Date() | moment('dddd MMMM Do') }}</span>
+            <span class="text-lg font-bold">{{ this.day }},</span> <span class="text-sm">{{ new Date() | moment('dddd MMMM Do') }}</span>
         </h2>
 
         <div class="todo-wrapper">
@@ -23,25 +23,29 @@ import axios from 'axios';
 
 export default {
     name: 'TodayTask',
+    props: {
+        day: {
+            type: String,
+        },
+    },
     components: {
         Button,
         RichText,
     },
     data() {
         return {
-            show: false,
+            title: 'vikas',
             apiData: [],
             options: {
                 content: '',
                 placeholder: 'Your Task',
             },
             richTextEditor: '',
-            interval: null,
         };
     },
 
-    async created() {
-        this.apiData = await this.fetchTasks();
+    async mounted() {
+        await this.fetchTasks();
     },
 
     methods: {
@@ -50,7 +54,7 @@ export default {
                 alert('Fill the form');
                 return;
             }
-            await axios.post('https://api.airtable.com/v0/apphZGgDhpEPZGSgI/today?api_key=keyb5bZMwjL3cHJ3q', {
+            await axios.post(`https://api.airtable.com/v0/apphZGgDhpEPZGSgI/${this.day}?api_key=keyb5bZMwjL3cHJ3q`, {
                 fields: {
                     task: this.options.content,
                 },
@@ -62,22 +66,26 @@ export default {
         },
 
         async fetchTasks() {
-            const res = await axios.get('https://api.airtable.com/v0/apphZGgDhpEPZGSgI/today?api_key=keyb5bZMwjL3cHJ3q');
+            const res = await axios.get(`https://api.airtable.com/v0/apphZGgDhpEPZGSgI/${this.day}?api_key=keyb5bZMwjL3cHJ3q`);
             const data = res.data.records.map(record => {
                 return record.fields.task;
             });
-            return data;
+            this.apiData = data;
         },
         delteTask(task, index) {
             alert('confirm delete...');
             this.apiData.splice(this.apiData.indexOf(task), 1);
         },
     },
+    watch: {
+        async period() {
+            await this.fetchTasks();
+        },
+    },
 };
 </script>
 
 <style lang="scss" scoped>
-
 .show-task {
     padding-top: 4rem;
     padding-bottom: 1rem;
@@ -104,7 +112,7 @@ export default {
     color: rgb(245, 70, 70);
 }
 .task {
-    padding: 0 20%;
+    padding: 0 15%;
 }
 .tasks {
     margin-top: 16px;
