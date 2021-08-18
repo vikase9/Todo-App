@@ -3,7 +3,7 @@
         <!--Sidebar with Dimmer -->
         <div class="fixed flex z-30">
             <!-- Sidebar -->
-            <div class="absolute flex top-0 h-screen z-20" :class="[right ? 'right-0 flex-row' : 'left-0 flex-row-reverse']">
+            <div class="absolute flex top-0 h-screen z-20">
                 <!--Drawer -->
                 <!-- <button @click.prevent="toggle()" class="w-10 h-10 p-1 my-0 rounded text-white bg-gray-600 text-center focus:outline-none hover:bg-gray-500 transition-color duration-300">
                     <span class="block transform origin-center font-bold"><i class="fas fa-bars"></i> </span>

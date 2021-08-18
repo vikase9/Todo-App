@@ -1,17 +1,18 @@
 <template>
-    <div class="task  bg-gray-100 h-full">
+    <div class="task bg-gray-100 h-full">
         <div class="show-task"><i class="fas fa-plus plus-icon"></i><span>Show Task</span></div>
-        <h2 class="">Today</h2>
- 
+        <h2>
+            <span class="text-lg font-bold">Today,</span> <span class="text-sm">{{ new Date() | moment('dddd MMMM Do') }}</span>
+        </h2>
+
         <div class="todo-wrapper">
             <div class="task-wrapper">
-                <div v-for="(item, index) in apiData" :key="index" class="tasks bg-white shadow-sm py-4 px-4">
-                    <div class="form-element">
-                        <span v-html="item"> </span>
+                <RichText class="rich-text" :options="options" :send="submitTask" ref="richTextEditor" />
+                <div v-cloak v-for="(item, index) in apiData" :key="index" class="tasks bg-white shadow-sm py-4 px-4" v-on:click="delteTask(item, index)">
+                    <div class="form-element flex justify-center">
+                        <span class="font-serif" v-html="item"> </span>
                     </div>
                 </div>
-
-                <RichText class="rich-text" :options="options" :send="submitTask" ref="richTextEditor" />
             </div>
         </div>
     </div>
@@ -28,7 +29,7 @@ export default {
     },
     data() {
         return {
-            seen: false,
+            show: false,
             apiData: [],
             options: {
                 content: '',
@@ -55,6 +56,9 @@ export default {
                 },
             });
             this.apiData.push(this.options.content);
+            this.$nextTick(() => {
+                this.$refs.richTextEditor.clearContent();
+            });
         },
 
         async fetchTasks() {
@@ -64,11 +68,16 @@ export default {
             });
             return data;
         },
+        delteTask(task, index) {
+            alert('confirm delete...');
+            this.apiData.splice(this.apiData.indexOf(task), 1);
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
+
 .show-task {
     padding-top: 4rem;
     padding-bottom: 1rem;
