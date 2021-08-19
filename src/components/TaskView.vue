@@ -1,16 +1,18 @@
 <template>
     <div class="task bg-gray-100 h-full">
-        <div class="show-task"><i class="fas fa-plus plus-icon"></i><span>Show Task</span></div>
-        <h2>
-            <span class="text-lg font-bold">{{ this.day }},</span> <span class="text-sm">{{ new Date() | moment('dddd MMMM Do') }}</span>
-        </h2>
+        <div @click="showTask" class="show-task"><i class="fas fa-plus plus-icon"></i><span>Show Task</span></div>
+        <div v-if="seen">
+            <h2>
+                <span class="text-lg font-bold">{{ this.day }},</span> <span class="text-sm">{{ new Date() | moment('dddd MMMM Do') }}</span>
+            </h2>
 
-        <div class="todo-wrapper">
-            <div class="task-wrapper">
-                <RichText class="rich-text" :options="options" :send="submitTask" ref="richTextEditor" />
-                <div v-cloak v-for="(item, index) in apiData" :key="index" class="tasks bg-white shadow-sm py-4 px-4" v-on:click="delteTask(item, index)">
-                    <div class="form-element flex justify-center">
-                        <span class="font-serif" v-html="item"> </span>
+            <div class="todo-wrapper">
+                <div class="task-wrapper">
+                    <RichText class="rich-text" :options="options" :send="submitTask" ref="richTextEditor" />
+                    <div v-cloak v-for="(item, index) in apiData" :key="index" class="tasks bg-white shadow-sm py-4 px-4" v-on:click="delteTask(item, index)">
+                        <div class="form-element flex justify-center">
+                            <span class="font-serif" v-html="item"> </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -35,6 +37,7 @@ export default {
     data() {
         return {
             title: 'vikas',
+            seen: false,
             apiData: [],
             options: {
                 content: '',
@@ -49,6 +52,9 @@ export default {
     },
 
     methods: {
+        showTask() {
+            this.seen = !this.seen
+        },
         async submitTask() {
             if (!this.options.content) {
                 alert('Fill the form');
