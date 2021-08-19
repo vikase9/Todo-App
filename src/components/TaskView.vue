@@ -1,6 +1,9 @@
 <template>
     <div class="task bg-gray-100 h-full">
-        <div @click="showTask" class="show-task"><i class="fas fa-plus plus-icon"></i><span>Show Task</span></div>
+        <div @click="showTask" class="show-task"><i class="fas fa-plus plus-icon"></i>
+        <span v-if="seen">Hide Task</span>
+        <span v-else>Show Task</span>
+        </div>
         <div v-if="seen">
             <h2>
                 <span class="text-lg font-bold">{{ this.day }},</span> <span class="text-sm">{{ new Date() | moment('dddd MMMM Do') }}</span>
