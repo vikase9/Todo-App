@@ -1,8 +1,7 @@
 import Vue from "vue";
 import VueRouter from 'vue-router'
+import ToDoView from '@/views/ToDoView';
 
-import Upcoming from './views/Upcoming'
-import TodayTask from './components/TodayTask'
 
 Vue.use(VueRouter)
 
@@ -11,11 +10,15 @@ export const router = new VueRouter({
     routes: [
         {
             path:'/',
-            component: TodayTask
+            name:'today',
+            component: ToDoView,
+
         },
         {
             path:'/upcoming',
-            component: Upcoming
+            name:'tomorrow',
+            component: ToDoView,
+
         }
     ]
 })

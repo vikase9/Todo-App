@@ -2,7 +2,7 @@
     <div class="task bg-gray-100 h-full">
         <div class="show-task"><i class="fas fa-plus plus-icon"></i><span>Show Task</span></div>
         <h2>
-            <span class="text-lg font-bold">Today,</span> <span class="text-sm">{{ new Date() | moment('dddd MMMM Do') }}</span>
+            <span class="text-lg font-bold">{{ this.period }},</span> <span class="text-sm">{{ new Date() | moment('dddd MMMM Do') }}</span>
         </h2>
 
         <div class="todo-wrapper">
@@ -22,7 +22,12 @@ import {Button, RichText} from '@e9ine/vue_components';
 import axios from 'axios';
 
 export default {
-    name: 'TodayTask',
+    name: 'TaskView',
+    props:{
+        period:{
+            type: String
+        }
+    },
     components: {
         Button,
         RichText,
@@ -40,8 +45,8 @@ export default {
         };
     },
 
-    async created() {
-        this.apiData = await this.fetchTasks();
+    async mounted() {
+        await this.fetchTasks();
     },
 
     methods: {
@@ -50,7 +55,7 @@ export default {
                 alert('Fill the form');
                 return;
             }
-            await axios.post('https://api.airtable.com/v0/apphZGgDhpEPZGSgI/today?api_key=keyb5bZMwjL3cHJ3q', {
+            await axios.post(`https://api.airtable.com/v0/apphZGgDhpEPZGSgI/${this.period}?api_key=keyb5bZMwjL3cHJ3q`, {
                 fields: {
                     task: this.options.content,
                 },
@@ -62,17 +67,22 @@ export default {
         },
 
         async fetchTasks() {
-            const res = await axios.get('https://api.airtable.com/v0/apphZGgDhpEPZGSgI/today?api_key=keyb5bZMwjL3cHJ3q');
+            const res = await axios.get(`https://api.airtable.com/v0/apphZGgDhpEPZGSgI/${this.period}?api_key=keyb5bZMwjL3cHJ3q`);
             const data = res.data.records.map(record => {
                 return record.fields.task;
             });
-            return data;
+            this.apiData = data;
         },
         delteTask(task, index) {
             alert('confirm delete...');
             this.apiData.splice(this.apiData.indexOf(task), 1);
         },
     },
+    watch:{
+        async period(){
+            await this.fetchTasks();
+        }
+    }
 };
 </script>
 
