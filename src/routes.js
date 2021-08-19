@@ -6,6 +6,7 @@ Vue.use(VueRouter)
 
 export const router = new VueRouter({
     mode: 'history',
+    linkExactActiveClass: 'active-link',
     routes: [
         {
             path:'/',
@@ -17,5 +18,6 @@ export const router = new VueRouter({
             name: 'Tomorrow',
             component: TodoView,
         }
-    ]
+    ],
+    
 })

@@ -78,7 +78,7 @@ export default {
         },
     },
     watch: {
-        async period() {
+        async day() {
             await this.fetchTasks();
         },
     },

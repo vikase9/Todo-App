@@ -15,4 +15,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.active-link {
+    background-color: rgb(243, 46, 46);
+}
+
+</style>
